@@ -187,5 +187,5 @@ Read `.claude/skills/deploy/SKILL.md` and execute it fully.
 
 ## Resuming
 
-If interrupted, say "continue" or run `/feature continue`.
+If interrupted, say "continue" or run `/workflow-feature continue`.
 Reads `.planning/STATE.md` → resumes from current phase.
