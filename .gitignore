@@ -1,0 +1,14 @@
+# Planning artifacts (generated at runtime, not in framework template)
+.planning/active/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
