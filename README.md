@@ -1,10 +1,6 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Ankach%20Dev%20Framework&fontSize=36&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Structured%20AI-assisted%20development%20workflows%20for%20Claude%20Code&descAlignY=52&descSize=16" width="100%"/>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=6366F1&center=true&vCenter=true&width=600&lines=Workflows+that+bring+structure+to+AI+coding;Skills,+agents,+and+commands+—+organized+by+workflow;Manual+approval+gates+at+every+step;Parallel+agent+execution+with+fresh+context" />
-</p>
-
-<p align="center">
   <a href="https://github.com/AAnkacHH/ankach-dev-framework/stargazers"><img src="https://img.shields.io/github/stars/AAnkacHH/ankach-dev-framework?style=flat-square&color=6366F1&labelColor=1e1e2e" alt="Stars"/></a>
   <a href="https://github.com/AAnkacHH/ankach-dev-framework/network/members"><img src="https://img.shields.io/github/forks/AAnkacHH/ankach-dev-framework?style=flat-square&color=a78bfa&labelColor=1e1e2e" alt="Forks"/></a>
   <a href="https://github.com/AAnkacHH/ankach-dev-framework/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AAnkacHH/ankach-dev-framework?style=flat-square&color=22c55e&labelColor=1e1e2e" alt="License"/></a>
