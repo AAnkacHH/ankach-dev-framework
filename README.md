@@ -1,7 +1,7 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Ankach%20Dev%20Framework&fontSize=36&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Structured%20AI-assisted%20development%20workflows%20for%20Claude%20Code&descAlignY=52&descSize=16" width="100%"/>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=6366F1&center=true&vCenter=true&width=600&lines=9+phases+from+idea+to+deploy;Manual+approval+gates+at+every+step;Anti-rationalization+tables+in+every+skill;Parallel+agent+execution+with+fresh+context" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=6366F1&center=true&vCenter=true&width=600&lines=Workflows+that+bring+structure+to+AI+coding;Skills,+agents,+and+commands+—+organized+by+workflow;Manual+approval+gates+at+every+step;Parallel+agent+execution+with+fresh+context" />
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@
 <p align="center">
   <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-4285F4?style=flat-square"/></a>
   <a href="#-workflows"><img src="https://img.shields.io/badge/Workflows-22c55e?style=flat-square"/></a>
-  <a href="#-how-it-works"><img src="https://img.shields.io/badge/How_It_Works-a78bfa?style=flat-square"/></a>
+  <a href="#-utilities"><img src="https://img.shields.io/badge/Utilities-a78bfa?style=flat-square"/></a>
   <a href="docs/patterns.md"><img src="https://img.shields.io/badge/Patterns-f59e0b?style=flat-square"/></a>
   <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-ef4444?style=flat-square"/></a>
 </p>
@@ -44,10 +44,10 @@ AI coding assistants are powerful but chaotic. They skip analysis, jump to code,
 
 ### With framework
 
-- 9 phases from idea to deploy
-- Manual approval gates
+- Structured phases with approval gates
 - Every decision documented
 - Anti-rationalization tables
+- Parallel agent execution
 - Survives context resets
 
 </td>
@@ -72,140 +72,31 @@ git clone https://github.com/AAnkacHH/ankach-dev-framework.git
 Then in Claude Code:
 
 ```
-# For a new feature on existing project:
 /workflow-feature Add user authentication with OAuth
-
-# For a new project from scratch:
-/workflow-full Build a REST API for inventory management
 ```
 
 ---
 
 ## Workflows
 
-Each workflow is a **self-contained folder** with its own skills, commands, agents, and orchestrator.
+Each workflow is a **self-contained folder** with its own skills, commands, agents, and orchestrator. Click through for details.
 
 | Workflow | Description | Skills | Agents | Commands |
 |----------|-------------|:------:|:------:|:--------:|
-| [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase development workflow | 9 | 5 | 11 |
-
-```mermaid
-graph LR
-    A["/analyze"] --> B["/architect"] --> C["/design"] --> D["/decompose"]
-    D --> E["/validate"] --> F["/build"] --> G["/review"] --> H["/document"] --> I["/deploy"]
-```
+| [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase development: analyze → architect → design → decompose → validate → build → review → document → deploy | 9 | 5 | 11 |
 
 > [!NOTE]
-> Adding a new workflow = adding a new folder to `workflows/`. Each workflow is independent and can have its own agents, skills, and commands.
+> Adding a new workflow = adding a new folder to `workflows/`. Each workflow is independent and has its own README with full documentation.
 
 ---
 
-## How It Works
+## Utilities
 
-### The 9-Phase Pipeline
+Standalone tools that are not part of any workflow.
 
-```mermaid
-graph TD
-    P1["1. Analysis<br/><i>Understand the task, research, propose approaches</i>"]
-    P2["2. Architecture<br/><i>Macro: servers, communication, technologies</i>"]
-    P3["3. Design<br/><i>Micro: domain map, entities, API contracts</i>"]
-    P4["4. Decomposition<br/><i>EPIC → STORIES → TASKS with wave plan</i>"]
-    P5["5. Validation<br/><i>Architecture review + requirements coverage</i>"]
-    P6["6. Implementation<br/><i>Parallel agents, wave-by-wave execution</i>"]
-    P7["7. Review<br/><i>Spec compliance → Code quality → Tests</i>"]
-    P8["8. Documentation<br/><i>API docs, dev notes, changelog</i>"]
-    P9["9. Deploy<br/><i>Checklist, merge/PR, verify, archive</i>"]
-
-    P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9
-    P5 -- "FAIL" --> P3
-    P5 -- "FAIL" --> P4
-    P7 -- "NEEDS WORK" --> P4
-    P7 -- "NEEDS WORK" --> P5
-    P7 -- "NEEDS WORK" --> P6
-```
-
-### Agents
-
-5 specialized sub-agents, each with a fresh context window:
-
-| Agent | Role |
-|-------|------|
-| **Implementer** | Implements a single story with sub-tasks |
-| **Researcher** | Deep research for analysis and architecture phases |
-| **Spec Reviewer** | Checks implementation matches design spec |
-| **Code Quality Reviewer** | Checks SOLID, security, performance, conventions |
-| **Test Writer** | Writes unit and integration tests |
-
-### Key Patterns
-
-<details>
-<summary><strong>Hard Gates</strong> — every phase requires explicit human approval</summary>
-
-```xml
-<HARD-GATE>
-Wait for explicit approval before proceeding.
-On approve → update STATE.md, move to next phase.
-On reject → fix and re-present.
-</HARD-GATE>
-```
-
-No phase can be skipped. No rationalization accepted.
-
-</details>
-
-<details>
-<summary><strong>Anti-Rationalization Tables</strong> — prevent agents from cutting corners</summary>
-
-Every skill includes a table of excuses the agent might generate and why each is invalid:
-
-| Excuse | Reality |
-|--------|---------|
-| "This is too simple for analysis" | Simple features that touch external systems need analysis. |
-| "Let's just start coding" | Architecture decisions made during coding are never revisited. |
-| "We already use this pattern" | Confirm it applies here. Existing ≠ always correct. |
-
-</details>
-
-<details>
-<summary><strong>Validation Loops</strong> — Phase 5 and 7 can loop back</summary>
-
-```mermaid
-graph LR
-    P5["Phase 5: Validation"] -- "FAIL" --> P3["Phase 3: Design"]
-    P5 -- "FAIL" --> P4["Phase 4: Decomposition"]
-    P7["Phase 7: Review"] -- "NEEDS WORK" --> P6["Phase 6: Implementation"]
-    P7 -- "NEEDS WORK" --> P5
-    P7 -- "NEEDS WORK" --> P4
-```
-
-Max 2 iterations per loop. After 2 failures, escalate to the user.
-
-</details>
-
-<details>
-<summary><strong>Wave-Based Parallel Execution</strong> — stories run in parallel agents</summary>
-
-```mermaid
-graph TD
-    subgraph WaveA["Wave A — foundation, no deps"]
-        S1["Story 1"]
-    end
-    subgraph WaveB["Wave B — parallel"]
-        S2["Story 2"]
-        S3["Story 3"]
-    end
-    subgraph WaveC["Wave C — depends on Wave B"]
-        S4["Story 4"]
-    end
-    S1 --> S2
-    S1 --> S3
-    S2 --> S4
-    S3 --> S4
-```
-
-Each agent gets a fresh context window — no context pollution between stories.
-
-</details>
+| Utility | Description |
+|---------|-------------|
+| [**map-codebase**](utilities/map-codebase/) | Analyze an existing codebase and generate `.context/` files |
 
 ---
 
@@ -213,18 +104,16 @@ Each agent gets a fresh context window — no context pollution between stories.
 
 ```
 workflows/                         # Each workflow is a self-contained unit
-├── dev-pipeline/                  # 9-phase development workflow
-│   ├── README.md                  # Overview, diagram, contents
-│   ├── workflow-full.md           # Orchestrator: greenfield
-│   ├── workflow-feature.md        # Orchestrator: brownfield
-│   ├── skills/                    # 9 phase skills (SKILL.md each)
-│   ├── commands/                  # 11 slash commands
-│   └── agents/                    # 5 sub-agents
+├── dev-pipeline/                  # → README.md inside with full docs
+│   ├── skills/                    # Phase skills (SKILL.md each)
+│   ├── commands/                  # Slash commands
+│   └── agents/                    # Sub-agents
+├── {your-workflow}/               # Add new workflows here
 │
-utilities/                         # Standalone tools (not workflows)
-├── map-codebase/                  # Analyze and document a codebase
+utilities/                         # Standalone tools
+├── map-codebase/
 │
-docs/                              # Framework documentation
+docs/                              # Framework-level documentation
 ```
 
 ---
@@ -239,22 +128,20 @@ docs/                              # Framework documentation
 
 | Document | Description |
 |----------|-------------|
-| [Phases](docs/phases.md) | Detailed description of all 9 phases with steps and artifacts |
-| [Agents](docs/agents.md) | 5 agents with tools, models, roles, and deviation rules |
-| [Patterns](docs/patterns.md) | Hard gates, anti-rationalization, understanding lock, validation loops |
-| [Examples](docs/examples.md) | 4 usage examples: brownfield, greenfield, single phase, resume |
-| [Installation](docs/installation.md) | Setup guide, CLAUDE.md configuration, file structure |
+| [Patterns](docs/patterns.md) | Hard gates, anti-rationalization, validation loops, wave execution |
+| [Examples](docs/examples.md) | Usage examples: brownfield, greenfield, single phase, resume |
+| [Installation](docs/installation.md) | Setup guide and file structure |
 | [Inspiration](docs/inspiration.md) | What we took from Superpowers, GSD, ECC, Antigravity |
 
 ---
 
 ## Contributing
 
-Contributions are welcome! If you have ideas for new workflows, patterns, or improvements:
+Contributions are welcome! To add a new workflow:
 
 1. Fork the repository
-2. Create a workflow folder in `workflows/`
-3. Follow the existing structure (skills, commands, agents, README)
+2. Create a folder in `workflows/` with `README.md`, `skills/`, `commands/`, `agents/`
+3. Follow the existing structure
 4. Open a PR
 
 ---
