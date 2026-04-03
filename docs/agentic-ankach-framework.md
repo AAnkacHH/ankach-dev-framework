@@ -1,14 +1,14 @@
-# Ankach Dev Framework — Архітектура та план впровадження
+# Ankach Dev Framework — Architecture & Implementation Plan
 
-Персональний development workflow framework для Claude Code, натхненний Superpowers, адаптований під повний цикл розробки.
+Personal development workflow framework for Claude Code, inspired by Superpowers, adapted for a full development cycle.
 
 ---
 
-## Концепція
+## Concept
 
-Superpowers — це plugin з фіксованим набором skills. Твій підхід інший: ти поступово додаєш skills і agents до кожного проєкту, зберігаючи їх у `.claude/` директорії. Технологічний стек описаний у `CLAUDE.md`, а skills працюють з будь-яким стеком.
+Superpowers is a plugin with a fixed set of skills. This approach is different: you incrementally add skills and agents to each project, storing them in the `.claude/` directory. The tech stack is described in `CLAUDE.md`, and skills work with any stack.
 
-**Твій pipeline:**
+**Your pipeline:**
 
 ```mermaid
 graph LR
@@ -21,7 +21,7 @@ graph LR
     G --> H["Deploy"]
 ```
 
-**Superpowers pipeline (для порівняння):**
+**Superpowers pipeline (for comparison):**
 
 ```mermaid
 graph LR
@@ -33,32 +33,32 @@ graph LR
     F --> G["Finish Branch"]
 ```
 
-**Що ми беремо з Superpowers:**
-- Формат SKILL.md з чіткими кроками і decision diagrams
+**What we take from Superpowers:**
+- SKILL.md format with clear steps and decision diagrams
 - Subagent isolation (fresh context per task)
 - Two-stage review (spec compliance + code quality)
-- Hard gates між фазами (не перескочити без approval)
-- Mandatory skill invocation (якщо є skill — юзай його)
+- Hard gates between phases (no skipping without approval)
+- Mandatory skill invocation (if a skill exists — use it)
 
-**Що додаємо своє:**
-- Architecture Definition Phase (відсутня у Superpowers)
-- Agent Task Decomposition (специфічні requirements для кожного агента)
-- Manual Review Gate (Superpowers тільки автоматичний)
+**What we add:**
+- Architecture Definition Phase (absent in Superpowers)
+- Agent Task Decomposition (specific requirements for each agent)
+- Manual Review Gate (Superpowers only has automatic)
 - Dedicated Refactoring Phase
-- Deploy Pipeline як окремий skill
+- Deploy Pipeline as a separate skill
 
 ---
 
-## Структура файлів (додається до існуючого проєкту)
+## File Structure (added to an existing project)
 
 ```
 your-project/
-├── CLAUDE.md                          # Головні інструкції + стек
-├── CLAUDE.local.md                    # Персональні override'и (gitignored)
+├── CLAUDE.md                          # Main instructions + stack
+├── CLAUDE.local.md                    # Personal overrides (gitignored)
 │
 ├── .claude/
 │   ├── settings.json                  # Permissions
-│   ├── settings.local.json            # Персональні permissions
+│   ├── settings.local.json            # Personal permissions
 │   │
 │   ├── skills/                        # === CORE SKILLS ===
 │   │   ├── analysis/
@@ -81,14 +81,14 @@ your-project/
 │   │       └── SKILL.md               # On-demand: Systematic Debugging
 │   │
 │   ├── agents/                        # === SUBAGENT PROMPTS ===
-│   │   ├── implementer.md             # Імплементує конкретну задачу
-│   │   ├── spec-reviewer.md           # Перевіряє відповідність специфікації
-│   │   ├── code-quality-reviewer.md   # Перевіряє якість коду
-│   │   ├── refactorer.md              # Спеціалізований рефакторинг
-│   │   └── test-writer.md             # Пише тести
+│   │   ├── implementer.md             # Implements a specific task
+│   │   ├── spec-reviewer.md           # Checks spec compliance
+│   │   ├── code-quality-reviewer.md   # Checks code quality
+│   │   ├── refactorer.md              # Specialized refactoring
+│   │   └── test-writer.md             # Writes tests
 │   │
 │   ├── commands/                      # === SLASH COMMANDS ===
-│   │   ├── analyze.md                 # /analyze — запустити Phase 1
+│   │   ├── analyze.md                 # /analyze — run Phase 1
 │   │   ├── plan.md                    # /plan — Phase 2+3
 │   │   ├── build.md                   # /build — Phase 4
 │   │   ├── review.md                  # /review — Phase 5
@@ -97,15 +97,15 @@ your-project/
 │   │   └── deploy.md                  # /deploy — Phase 8
 │   │
 │   └── rules/                         # === MODULAR RULES ===
-│       ├── code-style.md              # Стиль коду (бере з CLAUDE.md)
-│       └── git-conventions.md         # Git workflow правила
+│       ├── code-style.md              # Code style (from CLAUDE.md)
+│       └── git-conventions.md         # Git workflow rules
 │
 ├── docs/
-│   └── specs/                         # Генеровані специфікації
+│   └── specs/                         # Generated specifications
 │       └── YYYY-MM-DD-<feature>.md
-│   └── plans/                         # Генеровані плани
+│   └── plans/                         # Generated plans
 │       └── YYYY-MM-DD-<feature>.md
-│   └── reviews/                       # Результати рев'ю
+│   └── reviews/                       # Review results
 │       └── YYYY-MM-DD-<feature>.md
 ```
 
@@ -113,73 +113,73 @@ your-project/
 
 ## Phase 1: Analysis & Brainstorm
 
-**Файл:** `.claude/skills/analysis/SKILL.md`
+**File:** `.claude/skills/analysis/SKILL.md`
 
 **Trigger:** "Let's build X", "I need a feature for...", "Analyze this problem..."
 
-**Адаптовано з:** Superpowers `brainstorming` skill
+**Adapted from:** Superpowers `brainstorming` skill
 
-**Кроки:**
+**Steps:**
 
-1. **Explore Context** — прочитай CLAUDE.md, зрозумій стек і проєкт
-2. **Assess Scope** — якщо проєкт великий → декомпозиція на під-проєкти
-3. **Ask Questions** — по одному, prefer multiple choice
-4. **Research** — якщо потрібно, зроби research (web, codebase)
-5. **Propose 2-3 Approaches** — з trade-offs для кожного
-6. **User Picks Approach** — HARD GATE: не рухайся далі без вибору
+1. **Explore Context** — read CLAUDE.md, understand the stack and project
+2. **Assess Scope** — if the project is large → decompose into sub-projects
+3. **Ask Questions** — one at a time, prefer multiple choice
+4. **Research** — if needed, do research (web, codebase)
+5. **Propose 2-3 Approaches** — with trade-offs for each
+6. **User Picks Approach** — HARD GATE: do not proceed without a choice
 7. **Write Analysis Document** → `docs/specs/YYYY-MM-DD-<topic>-analysis.md`
 
-**Hard Gate:** Жоден код, scaffold, або імплементація не починається до завершення цієї фази.
+**Hard Gate:** No code, scaffold, or implementation starts until this phase is complete.
 
-**Виходить у:** Phase 2 (architecture skill)
+**Leads to:** Phase 2 (architecture skill)
 
 ---
 
 ## Phase 2: Define Requirements & Architecture
 
-**Файл:** `.claude/skills/architecture/SKILL.md`
+**File:** `.claude/skills/architecture/SKILL.md`
 
-**Trigger:** Автоматично після Phase 1 або "/plan"
+**Trigger:** Automatically after Phase 1 or "/plan"
 
-**Це НОВЕ — Superpowers це не має окремо.**
+**This is NEW — Superpowers does not have this as a separate phase.**
 
-**Кроки:**
+**Steps:**
 
-1. **Read Analysis** — прочитай документ з Phase 1
-2. **Define Functional Requirements** — що система повинна робити
+1. **Read Analysis** — read the document from Phase 1
+2. **Define Functional Requirements** — what the system must do
 3. **Define Non-Functional Requirements** — performance, security, scalability
-4. **Design Architecture** — компоненти, інтерфейси, data flow
-5. **Map Files** — які файли будуть створені/змінені, відповідальність кожного
-6. **Define API Contracts** — якщо є endpoints, визнач контракти до імплементації
+4. **Design Architecture** — components, interfaces, data flow
+5. **Map Files** — which files will be created/modified, each one's responsibility
+6. **Define API Contracts** — if there are endpoints, define contracts before implementation
 7. **User Reviews Architecture** — HARD GATE
 8. **Write Architecture Document** → `docs/specs/YYYY-MM-DD-<topic>-architecture.md`
 
-**Виходить у:** Phase 3 (task-decomposition skill)
+**Leads to:** Phase 3 (task-decomposition skill)
 
 ---
 
 ## Phase 3: Create Agent Tasks
 
-**Файл:** `.claude/skills/task-decomposition/SKILL.md`
+**File:** `.claude/skills/task-decomposition/SKILL.md`
 
-**Адаптовано з:** Superpowers `writing-plans` skill
+**Adapted from:** Superpowers `writing-plans` skill
 
-**Кроки:**
+**Steps:**
 
-1. **Read Architecture** — прочитай документ з Phase 2
-2. **Decompose into Tasks** — кожна задача 2-10 хвилин роботи агента
+1. **Read Architecture** — read the document from Phase 2
+2. **Decompose into Tasks** — each task is 2-10 minutes of agent work
 3. **Per Task Define:**
    - Exact file paths (create / modify)
-   - Input: які файли/контексти потрібні агенту
-   - Output: що агент повинен видати
-   - Acceptance criteria: як перевірити що задача виконана
-   - Dependencies: які задачі мають бути виконані першими
-4. **Identify Parallel Groups** — які задачі можна виконувати паралельно
+   - Input: which files/contexts the agent needs
+   - Output: what the agent must produce
+   - Acceptance criteria: how to verify the task is done
+   - Dependencies: which tasks must be completed first
+4. **Identify Parallel Groups** — which tasks can run in parallel
 5. **Assign Agent Types** — implementer / test-writer / etc.
 6. **User Reviews Plan** — HARD GATE
-7. **Write Plan** → `docs/plans/YYYY-MM-DD-<feature>.md` з checkbox syntax
+7. **Write Plan** → `docs/plans/YYYY-MM-DD-<feature>.md` with checkbox syntax
 
-**Формат задачі в плані:**
+**Task format in the plan:**
 
 ```markdown
 ### Task 3: Create UserService
@@ -190,38 +190,38 @@ your-project/
 - **Depends on:** Task 1 (Entity), Task 2 (Repository)
 - **Context:** Read Entity and Repository from Tasks 1-2
 - **Acceptance:**
-  - [ ] Service створений з правильними dependencies
-  - [ ] Методи createUser, updateUser, deleteUser імплементовані
-  - [ ] Type hints на всіх параметрах і return types
-  - [ ] Відповідає PSR-12 / Symfony conventions
+  - [ ] Service created with correct dependencies
+  - [ ] Methods createUser, updateUser, deleteUser implemented
+  - [ ] Type hints on all parameters and return types
+  - [ ] Follows PSR-12 / Symfony conventions
 ```
 
-**Виходить у:** Phase 4 (implementation skill)
+**Leads to:** Phase 4 (implementation skill)
 
 ---
 
 ## Phase 4: Parallel Agent Implementation
 
-**Файл:** `.claude/skills/implementation/SKILL.md`
+**File:** `.claude/skills/implementation/SKILL.md`
 
-**Адаптовано з:** Superpowers `subagent-driven-development` + `dispatching-parallel-agents`
+**Adapted from:** Superpowers `subagent-driven-development` + `dispatching-parallel-agents`
 
-**Принцип:** Fresh subagent per task. Ізольований контекст. Агент отримує тільки те що йому потрібно.
+**Principle:** Fresh subagent per task. Isolated context. The agent receives only what it needs.
 
-**Кроки:**
+**Steps:**
 
-1. **Read Plan** — один раз прочитай весь план
-2. **Extract All Tasks** — створи TodoWrite з усіма задачами
+1. **Read Plan** — read the entire plan once
+2. **Extract All Tasks** — create TodoWrite with all tasks
 3. **Per Parallel Group:**
-   - Dispatch субагентів для всіх задач в групі
-   - Кожен субагент отримує: task description + залежні файли + CLAUDE.md rules
-   - Субагент: implement → self-test → self-review → commit
-   - Субагент звітує: DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT
-4. **Handle Blocked** — дай більше контексту або розбий задачу
-5. **Sequential Groups** — виконуй по порядку dependencies
-6. **Mark Progress** — оновлюй checkboxes в плані
+   - Dispatch subagents for all tasks in the group
+   - Each subagent receives: task description + dependent files + CLAUDE.md rules
+   - Subagent: implement → self-test → self-review → commit
+   - Subagent reports: DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT
+4. **Handle Blocked** — provide more context or split the task
+5. **Sequential Groups** — execute in dependency order
+6. **Mark Progress** — update checkboxes in the plan
 
-**Субагент Workflow (implementer.md):**
+**Subagent Workflow (implementer.md):**
 
 ```
 Read task requirements
@@ -233,128 +233,128 @@ Read task requirements
             → Report status
 ```
 
-**Виходить у:** Phase 5 (code-review skill)
+**Leads to:** Phase 5 (code-review skill)
 
 ---
 
 ## Phase 5: Code Review (Auto + Manual)
 
-**Файл:** `.claude/skills/code-review/SKILL.md`
+**File:** `.claude/skills/code-review/SKILL.md`
 
-**Адаптовано з:** Superpowers `requesting-code-review` (two-stage review)
+**Adapted from:** Superpowers `requesting-code-review` (two-stage review)
 
 **Stage 1: Spec Compliance Review (auto)**
-- Субагент `spec-reviewer.md` перевіряє кожну задачу:
-  - Чи всі acceptance criteria виконані?
-  - Чи немає зайвого коду (scope creep)?
-  - Чи API contracts дотримані?
-- Результат: PASS / FAIL з конкретними issues
+- Subagent `spec-reviewer.md` checks each task:
+  - Are all acceptance criteria met?
+  - Is there any extra code (scope creep)?
+  - Are API contracts followed?
+- Result: PASS / FAIL with specific issues
 
 **Stage 2: Code Quality Review (auto)**
-- Субагент `code-quality-reviewer.md` перевіряє:
+- Subagent `code-quality-reviewer.md` checks:
   - SOLID principles
   - Code style (PSR-12 / Symfony / ESLint)
   - Security (SQL injection, XSS, CSRF)
   - Performance (N+1 queries, unnecessary loops)
   - Naming conventions
   - Error handling
-- Severity: CRITICAL (блокує) / WARNING / SUGGESTION
+- Severity: CRITICAL (blocks) / WARNING / SUGGESTION
 
 **Stage 3: Manual Review Gate**
-- Підготуй summary для людини:
+- Prepare a summary for the human:
   - Diff overview
   - Auto-review results
   - Flagged areas for human attention
-- **HARD GATE:** Чекай approval від людини
-- Людина може: approve / request changes / ask questions
+- **HARD GATE:** Wait for approval from the human
+- The human can: approve / request changes / ask questions
 
 **Write Review** → `docs/reviews/YYYY-MM-DD-<feature>.md`
 
-**Виходить у:** Phase 6 (refactoring) або назад у Phase 4 (якщо changes requested)
+**Leads to:** Phase 6 (refactoring) or back to Phase 4 (if changes requested)
 
 ---
 
 ## Phase 6: Refactoring
 
-**Файл:** `.claude/skills/refactoring/SKILL.md`
+**File:** `.claude/skills/refactoring/SKILL.md`
 
-**Це НОВЕ — Superpowers об'єднує це з TDD cycle.**
+**This is NEW — Superpowers combines this with the TDD cycle.**
 
-**Trigger:** Після code review або на вимогу (/refactor)
+**Trigger:** After code review or on demand (/refactor)
 
-**Кроки:**
+**Steps:**
 
-1. **Read Review Results** — що потребує рефакторингу
+1. **Read Review Results** — what needs refactoring
 2. **Categorize:**
-   - Must-fix (з review)
+   - Must-fix (from review)
    - Should-improve (code quality suggestions)
    - Nice-to-have (elegance)
 3. **Per Refactoring Task:**
-   - Субагент `refactorer.md` отримує: поточний код + review feedback + rules
-   - Рефакторить → verifies existing tests still pass → commits
+   - Subagent `refactorer.md` receives: current code + review feedback + rules
+   - Refactors → verifies existing tests still pass → commits
 4. **Verify No Regression** — run full test suite
-5. **Quick Re-review** — лайтовий review рефакторингу
+5. **Quick Re-review** — lightweight review of the refactoring
 
-**Виходить у:** Phase 7 (testing)
+**Leads to:** Phase 7 (testing)
 
 ---
 
 ## Phase 7: Automatic Testing
 
-**Файл:** `.claude/skills/testing/SKILL.md`
+**File:** `.claude/skills/testing/SKILL.md`
 
-**Адаптовано з:** Superpowers `test-driven-development` (але ми не завжди TDD)
+**Adapted from:** Superpowers `test-driven-development` (but we don't always do TDD)
 
-**Два режими:**
+**Two modes:**
 
-**Mode A: TDD (якщо нова фіча з нуля)**
-- RED: напиши тест що фейлить
-- GREEN: мінімальний код щоб пройшов
-- REFACTOR: покращ зберігаючи тести зеленими
-- Commit після кожного GREEN
+**Mode A: TDD (when building a new feature from scratch)**
+- RED: write a failing test
+- GREEN: minimal code to make it pass
+- REFACTOR: improve while keeping tests green
+- Commit after each GREEN
 
-**Mode B: Post-Implementation Testing (якщо вже є код)**
-- Аналізуй покриття: які paths не покриті
-- Субагент `test-writer.md` пише:
-  - Unit tests для кожного сервісу/компонента
-  - Integration tests для API endpoints
-  - Edge cases і error scenarios
+**Mode B: Post-Implementation Testing (when code already exists)**
+- Analyze coverage: which paths are not covered
+- Subagent `test-writer.md` writes:
+  - Unit tests for each service/component
+  - Integration tests for API endpoints
+  - Edge cases and error scenarios
 - Run full suite
 - Report coverage
 
-**Stack-specific (визначається з CLAUDE.md):**
+**Stack-specific (determined from CLAUDE.md):**
 - PHP/Symfony → PHPUnit + PHPStan
 - NestJS → Jest
 - Vue.js → Vitest + Vue Test Utils
 - .NET → xUnit
 
-**Виходить у:** Phase 8 (deploy)
+**Leads to:** Phase 8 (deploy)
 
 ---
 
 ## Phase 8: Deploy
 
-**Файл:** `.claude/skills/deploy/SKILL.md`
+**File:** `.claude/skills/deploy/SKILL.md`
 
-**Кроки:**
+**Steps:**
 
 1. **Pre-deploy Checklist:**
-   - [ ] Всі тести проходять
+   - [ ] All tests pass
    - [ ] Code review approved
-   - [ ] No CRITICAL issues в review
-   - [ ] Environment variables перевірені
-   - [ ] Database migrations готові (якщо є)
-   - [ ] CHANGELOG оновлений
+   - [ ] No CRITICAL issues in review
+   - [ ] Environment variables verified
+   - [ ] Database migrations ready (if any)
+   - [ ] CHANGELOG updated
 2. **Merge Strategy:**
    - Create PR / merge to main
-   - Squash або merge commit (configurable в CLAUDE.md)
+   - Squash or merge commit (configurable in CLAUDE.md)
 3. **Deploy Command:**
    - Stack-specific (Coolify, Docker, bare metal)
-   - Визначається в CLAUDE.md
+   - Defined in CLAUDE.md
 4. **Post-deploy Verification:**
    - Smoke tests
    - Health check endpoints
-   - Log monitoring (перші 5 хвилин)
+   - Log monitoring (first 5 minutes)
 
 ---
 
@@ -400,50 +400,50 @@ Read task requirements
 
 ---
 
-## План впровадження (поступовий)
+## Implementation Plan (gradual)
 
 ### Week 1: Foundation
-- [ ] Створити структуру `.claude/skills/` і `.claude/agents/`
-- [ ] Написати `CLAUDE.md` для одного проєкту
-- [ ] Створити Phase 1 skill (`analysis/SKILL.md`)
-- [ ] Створити Phase 2 skill (`architecture/SKILL.md`)
-- [ ] Протестувати на реальній задачі
+- [ ] Create `.claude/skills/` and `.claude/agents/` structure
+- [ ] Write `CLAUDE.md` for one project
+- [ ] Create Phase 1 skill (`analysis/SKILL.md`)
+- [ ] Create Phase 2 skill (`architecture/SKILL.md`)
+- [ ] Test on a real task
 
 ### Week 2: Implementation Pipeline
-- [ ] Створити Phase 3 skill (`task-decomposition/SKILL.md`)
-- [ ] Створити Phase 4 skill (`implementation/SKILL.md`)
-- [ ] Написати `agents/implementer.md`
-- [ ] Протестувати parallel execution
+- [ ] Create Phase 3 skill (`task-decomposition/SKILL.md`)
+- [ ] Create Phase 4 skill (`implementation/SKILL.md`)
+- [ ] Write `agents/implementer.md`
+- [ ] Test parallel execution
 
 ### Week 3: Quality Gates
-- [ ] Створити Phase 5 skill (`code-review/SKILL.md`)
-- [ ] Написати `agents/spec-reviewer.md` і `agents/code-quality-reviewer.md`
-- [ ] Створити Phase 6 skill (`refactoring/SKILL.md`)
-- [ ] Написати `agents/refactorer.md`
+- [ ] Create Phase 5 skill (`code-review/SKILL.md`)
+- [ ] Write `agents/spec-reviewer.md` and `agents/code-quality-reviewer.md`
+- [ ] Create Phase 6 skill (`refactoring/SKILL.md`)
+- [ ] Write `agents/refactorer.md`
 
 ### Week 4: Testing & Deploy
-- [ ] Створити Phase 7 skill (`testing/SKILL.md`)
-- [ ] Написати `agents/test-writer.md`
-- [ ] Створити Phase 8 skill (`deploy/SKILL.md`)
-- [ ] Створити slash commands (`/analyze`, `/plan`, `/build`, etc.)
+- [ ] Create Phase 7 skill (`testing/SKILL.md`)
+- [ ] Write `agents/test-writer.md`
+- [ ] Create Phase 8 skill (`deploy/SKILL.md`)
+- [ ] Create slash commands (`/analyze`, `/plan`, `/build`, etc.)
 
 ### Week 5+: Iterate
-- [ ] Зібрати lessons learned
-- [ ] Оптимізувати prompts агентів
-- [ ] Додати debugging skill
-- [ ] Адаптувати для інших проєктів (копіюй `.claude/` + змінюй `CLAUDE.md`)
+- [ ] Collect lessons learned
+- [ ] Optimize agent prompts
+- [ ] Add debugging skill
+- [ ] Adapt for other projects (copy `.claude/` + modify `CLAUDE.md`)
 
 ---
 
-## Ключові відмінності від Superpowers
+## Key Differences from Superpowers
 
-| Aspect | Superpowers | Твій Framework |
+| Aspect | Superpowers | This Framework |
 |--------|------------|----------------|
 | Format | Plugin (global) | Per-project `.claude/` |
-| Architecture phase | Немає (brainstorm → plan) | Окрема фаза з API contracts |
-| Manual review | Немає явного | Hard gate з summary |
-| Refactoring | Частина TDD cycle | Окрема фаза після review |
-| TDD | Завжди обов'язковий | Два режими: TDD або post-impl |
-| Deploy | Немає | Повний checklist + automation |
-| Tech specifics | У skill files | Тільки в CLAUDE.md (skills tech-agnostic) |
-| Sharing | Plugin marketplace | Copy `.claude/` між проєктами |
+| Architecture phase | None (brainstorm → plan) | Separate phase with API contracts |
+| Manual review | No explicit gate | Hard gate with summary |
+| Refactoring | Part of TDD cycle | Separate phase after review |
+| TDD | Always mandatory | Two modes: TDD or post-impl |
+| Deploy | None | Full checklist + automation |
+| Tech specifics | In skill files | Only in CLAUDE.md (skills are tech-agnostic) |
+| Sharing | Plugin marketplace | Copy `.claude/` between projects |
