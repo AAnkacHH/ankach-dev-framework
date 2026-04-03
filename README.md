@@ -112,6 +112,7 @@ Standalone tools that are not part of any workflow.
 
 | Utility | Description |
 |---------|-------------|
+| [**init-project**](utilities/init-project/) | Initialize a new project — Q&A, then generate `.context/`, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` |
 | [**map-codebase**](utilities/map-codebase/) | Analyze an existing codebase and generate `.context/` files |
 
 ---
