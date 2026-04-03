@@ -1,41 +1,23 @@
 # 9 Phases
 
-```
- ┌─────────────────────────┐
- │  1. Analysis             │  Understand the task, research, propose approaches
- └────────────┬────────────┘
-              ▼
- ┌─────────────────────────┐
- │  2. Architecture         │  Macro: servers, communication, technologies
- └────────────┬────────────┘
-              ▼
- ┌─────────────────────────┐
- │  3. Design               │  Micro: domain map, entities, API contracts
- └────────────┬────────────┘
-              ▼
- ┌─────────────────────────┐
- │  4. Decomposition        │  EPIC → STORIES → TASKS with wave plan
- └────────────┬────────────┘
-              ▼
- ┌─────────────────────────┐
- │  5. Validation           │  Architecture review + requirements coverage
- └────────────┬────────────┘  ↺ loop to 3/4 on FAIL
-              ▼
- ┌─────────────────────────┐
- │  6. Implementation       │  Parallel agents, wave-by-wave execution
- └────────────┬────────────┘
-              ▼
- ┌─────────────────────────┐
- │  7. Review               │  Spec compliance → Code quality → Tests
- └────────────┬────────────┘  ↺ loop to 4/5/6 on NEEDS WORK
-              ▼
- ┌─────────────────────────┐
- │  8. Documentation        │  API docs, dev notes, changelog
- └────────────┬────────────┘
-              ▼
- ┌─────────────────────────┐
- │  9. Deploy               │  Checklist, merge/PR, verify, archive
- └─────────────────────────┘
+```mermaid
+graph TD
+    P1["1. Analysis<br/><i>Understand the task, research, propose approaches</i>"]
+    P2["2. Architecture<br/><i>Macro: servers, communication, technologies</i>"]
+    P3["3. Design<br/><i>Micro: domain map, entities, API contracts</i>"]
+    P4["4. Decomposition<br/><i>EPIC → STORIES → TASKS with wave plan</i>"]
+    P5["5. Validation<br/><i>Architecture review + requirements coverage</i>"]
+    P6["6. Implementation<br/><i>Parallel agents, wave-by-wave execution</i>"]
+    P7["7. Review<br/><i>Spec compliance → Code quality → Tests</i>"]
+    P8["8. Documentation<br/><i>API docs, dev notes, changelog</i>"]
+    P9["9. Deploy<br/><i>Checklist, merge/PR, verify, archive</i>"]
+
+    P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9
+    P5 -- "FAIL" --> P3
+    P5 -- "FAIL" --> P4
+    P7 -- "NEEDS WORK" --> P4
+    P7 -- "NEEDS WORK" --> P5
+    P7 -- "NEEDS WORK" --> P6
 ```
 
 ---

@@ -73,7 +73,11 @@ Write to `.planning/active/03-design/domain-map.md`:
 
 ## Subdomain Diagram
 
-{ASCII or text diagram showing relationships}
+```mermaid
+graph LR
+    SubdomainA["{Subdomain A}"] -->|"{relationship}"| SubdomainB["{Subdomain B}"]
+    SubdomainA -->|"{relationship}"| SubdomainC["{Subdomain C}"]
+```
 
 ## New vs Existing
 

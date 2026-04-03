@@ -51,8 +51,10 @@ cd your-project
 
 ## Pipeline
 
-```
-/analyze → /architect → /design → /decompose → /validate → /build → /review → /document → /deploy
+```mermaid
+graph LR
+    A["/analyze"] --> B["/architect"] --> C["/design"] --> D["/decompose"]
+    D --> E["/validate"] --> F["/build"] --> G["/review"] --> H["/document"] --> I["/deploy"]
 ```
 
 | # | Phase | Command | Purpose |
@@ -66,6 +68,10 @@ cd your-project
 | 7 | Review | `/review` | Spec compliance → Code quality → Tests |
 | 8 | Documentation | `/document` | API docs, dev notes, changelog |
 | 9 | Deploy | `/deploy` | Checklist, merge/PR, verify, archive |
+
+## Conventions
+
+- **Diagrams:** All diagrams use [Mermaid](https://mermaid.js.org/) syntax — never ASCII art. Before generating, verify current syntax via [context7](https://context7.com) (`/mermaid-js/mermaid`). See [Patterns](docs/patterns.md#mermaid-diagrams-all-phases) for details.
 
 ## Documentation
 

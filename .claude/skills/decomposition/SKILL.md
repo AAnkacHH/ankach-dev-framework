@@ -127,8 +127,13 @@ Write `.planning/active/04-decomposition/wave-plan.md`:
 
 ## Dependency Diagram
 
-{N}.1 ──→ {N}.2 ──→ {N}.4
-   └────→ {N}.3 ──┘
+```mermaid
+graph LR
+    S1["{N}.1"] --> S2["{N}.2"]
+    S1 --> S3["{N}.3"]
+    S2 --> S4["{N}.4"]
+    S3 --> S4
+```
 ```
 
 **Rules:**
