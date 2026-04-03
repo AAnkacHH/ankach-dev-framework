@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Ankach%20AI%20Workflows&fontSize=36&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Structured%20AI-assisted%20development%20workflows%20for%20Claude%20Code&descAlignY=52&descSize=16" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Ankach%20AI%20Workflows&fontSize=36&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Structured%20AI-assisted%20workflows%20for%20Claude%20Code&descAlignY=52&descSize=16" width="100%"/>
 
 <p align="center">
   <a href="https://github.com/AAnkacHH/ankach-dev-framework/stargazers"><img src="https://img.shields.io/github/stars/AAnkacHH/ankach-dev-framework?style=flat-square&color=6366F1&labelColor=1e1e2e" alt="Stars"/></a>
@@ -8,9 +8,9 @@
 </p>
 
 <p align="center">
-  <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-4285F4?style=flat-square"/></a>
-  <a href="#-workflows"><img src="https://img.shields.io/badge/Workflows-22c55e?style=flat-square"/></a>
-  <a href="#-utilities"><img src="https://img.shields.io/badge/Utilities-a78bfa?style=flat-square"/></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Quick_Start-4285F4?style=flat-square"/></a>
+  <a href="#workflows"><img src="https://img.shields.io/badge/Workflows-22c55e?style=flat-square"/></a>
+  <a href="#utilities"><img src="https://img.shields.io/badge/Utilities-a78bfa?style=flat-square"/></a>
   <a href="docs/patterns.md"><img src="https://img.shields.io/badge/Patterns-f59e0b?style=flat-square"/></a>
   <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-ef4444?style=flat-square"/></a>
 </p>
@@ -77,11 +77,13 @@ Then in Claude Code:
 
 Each workflow is a **self-contained folder** with its own skills, commands, agents, and orchestrator. Click through for details.
 
+All commands use the `ankach:` namespace prefix to avoid conflicts.
+
 | Workflow | Description | Skills | Agents | Commands |
 |----------|-------------|:------:|:------:|:--------:|
-| [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase development: `/ankach:analyze` → `/ankach:deploy` | 9 | 5 | 11 |
-| [**research-analysis**](workflows/research-analysis/) | 9-step paper analysis: `/ankach:process` → `/ankach:so-what` | 9 | — | 10 |
-| **client-discovery** | Analyze a client's business, model, competitors, and SEO before proposing a solution | — | — | — |
+| [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase software development lifecycle | 9 | 5 | 11 |
+| [**research-analysis**](workflows/research-analysis/) | 9-step scientific paper analysis protocol | 9 | — | 10 |
+| **client-discovery** | Client business analysis before proposing a solution | — | — | — |
 
 > [!NOTE]
 > Adding a new workflow = adding a new folder to `workflows/`. Each workflow is independent and has its own README with full documentation.
@@ -120,15 +122,23 @@ Standalone tools that are not part of any workflow.
 ## Repository Structure
 
 ```
-workflows/                         # Each workflow is a self-contained unit
-├── dev-pipeline/                  # → README.md inside with full docs
-│   ├── skills/                    # Phase skills (SKILL.md each)
-│   ├── commands/                  # Slash commands
-│   └── agents/                    # Sub-agents
-├── {your-workflow}/               # Add new workflows here
+workflows/
+├── dev-pipeline/                  # 9-phase development lifecycle
+│   ├── README.md                  # Overview, pipeline diagram, contents
+│   ├── workflow-full.md           # Orchestrator: greenfield
+│   ├── workflow-feature.md        # Orchestrator: brownfield
+│   ├── skills/                    # 9 phase skills (SKILL.md each)
+│   ├── commands/ankach/           # 11 namespaced slash commands
+│   └── agents/                    # 5 sub-agents
 │
-utilities/                         # Standalone tools
-├── map-codebase/
+├── research-analysis/             # 9-step paper analysis protocol
+│   ├── README.md
+│   ├── skills/                    # 9 analysis skills
+│   └── commands/ankach/           # 10 namespaced slash commands
+│
+utilities/
+├── init-project/                  # Project initialization (Q&A → .context/)
+├── map-codebase/                  # Codebase analysis → .context/ files
 │
 docs/                              # Framework-level documentation
 ```
@@ -138,6 +148,7 @@ docs/                              # Framework-level documentation
 ## Conventions
 
 - **Diagrams:** All diagrams use [Mermaid](https://mermaid.js.org/) syntax — never ASCII art. Before generating, verify current syntax via [context7](https://context7.com) (`/mermaid-js/mermaid`). See [Patterns](docs/patterns.md#mermaid-diagrams-all-phases) for details.
+- **Commands:** All commands use the `ankach:` namespace prefix (e.g. `/ankach:analyze`, `/ankach:process`).
 
 ---
 
@@ -157,7 +168,7 @@ docs/                              # Framework-level documentation
 Contributions are welcome! To add a new workflow:
 
 1. Fork the repository
-2. Create a folder in `workflows/` with `README.md`, `skills/`, `commands/`, `agents/`
+2. Create a folder in `workflows/` with `README.md`, `skills/`, `commands/ankach/`, `agents/`
 3. Follow the existing structure
 4. Open a PR
 
