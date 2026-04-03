@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Ankach%20Dev%20Framework&fontSize=36&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Structured%20AI-assisted%20development%20workflows%20for%20Claude%20Code&descAlignY=52&descSize=16" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Ankach%20AI%20Workflows&fontSize=36&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Structured%20AI-assisted%20development%20workflows%20for%20Claude%20Code&descAlignY=52&descSize=16" width="100%"/>
 
 <p align="center">
   <a href="https://github.com/AAnkacHH/ankach-dev-framework/stargazers"><img src="https://img.shields.io/github/stars/AAnkacHH/ankach-dev-framework?style=flat-square&color=6366F1&labelColor=1e1e2e" alt="Stars"/></a>
