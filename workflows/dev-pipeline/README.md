@@ -4,8 +4,8 @@
 
 ```mermaid
 graph LR
-    A["/analyze"] --> B["/architect"] --> C["/design"] --> D["/decompose"]
-    D --> E["/validate"] --> F["/build"] --> G["/review"] --> H["/document"] --> I["/deploy"]
+    A["/ankach:analyze"] --> B["/ankach:architect"] --> C["/ankach:design"] --> D["/ankach:decompose"]
+    D --> E["/ankach:validate"] --> F["/ankach:build"] --> G["/ankach:review"] --> H["/ankach:document"] --> I["/ankach:deploy"]
 ```
 
 ## Orchestrators
@@ -41,15 +41,15 @@ graph TD
 
 | # | Phase | Skill | Command |
 |---|-------|-------|---------|
-| 1 | Analysis | [analysis/SKILL.md](skills/analysis/SKILL.md) | [/analyze](commands/analyze.md) |
-| 2 | Architecture | [architecture/SKILL.md](skills/architecture/SKILL.md) | [/architect](commands/architect.md) |
-| 3 | Design | [design/SKILL.md](skills/design/SKILL.md) | [/design](commands/design.md) |
-| 4 | Decomposition | [decomposition/SKILL.md](skills/decomposition/SKILL.md) | [/decompose](commands/decompose.md) |
-| 5 | Validation | [validation/SKILL.md](skills/validation/SKILL.md) | [/validate](commands/validate.md) |
-| 6 | Implementation | [implementation/SKILL.md](skills/implementation/SKILL.md) | [/build](commands/build.md) |
-| 7 | Review | [review/SKILL.md](skills/review/SKILL.md) | [/review](commands/review.md) |
-| 8 | Documentation | [documentation/SKILL.md](skills/documentation/SKILL.md) | [/document](commands/document.md) |
-| 9 | Deploy | [deploy/SKILL.md](skills/deploy/SKILL.md) | [/deploy](commands/deploy.md) |
+| 1 | Analysis | [analysis/SKILL.md](skills/analysis/SKILL.md) | [/ankach:analyze](commands/ankach/analyze.md) |
+| 2 | Architecture | [architecture/SKILL.md](skills/architecture/SKILL.md) | [/ankach:architect](commands/ankach/architect.md) |
+| 3 | Design | [design/SKILL.md](skills/design/SKILL.md) | [/ankach:design](commands/ankach/design.md) |
+| 4 | Decomposition | [decomposition/SKILL.md](skills/decomposition/SKILL.md) | [/ankach:decompose](commands/ankach/decompose.md) |
+| 5 | Validation | [validation/SKILL.md](skills/validation/SKILL.md) | [/ankach:validate](commands/ankach/validate.md) |
+| 6 | Implementation | [implementation/SKILL.md](skills/implementation/SKILL.md) | [/ankach:build](commands/ankach/build.md) |
+| 7 | Review | [review/SKILL.md](skills/review/SKILL.md) | [/ankach:review](commands/ankach/review.md) |
+| 8 | Documentation | [documentation/SKILL.md](skills/documentation/SKILL.md) | [/ankach:document](commands/ankach/document.md) |
+| 9 | Deploy | [deploy/SKILL.md](skills/deploy/SKILL.md) | [/ankach:deploy](commands/ankach/deploy.md) |
 
 ## Agents
 

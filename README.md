@@ -72,7 +72,7 @@ git clone https://github.com/AAnkacHH/ankach-dev-framework.git
 Then in Claude Code:
 
 ```
-/workflow-feature Add user authentication with OAuth
+/ankach:workflow-feature Add user authentication with OAuth
 ```
 
 ---
@@ -83,8 +83,8 @@ Each workflow is a **self-contained folder** with its own skills, commands, agen
 
 | Workflow | Description | Skills | Agents | Commands |
 |----------|-------------|:------:|:------:|:--------:|
-| [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase development: analyze → architect → design → decompose → validate → build → review → document → deploy | 9 | 5 | 11 |
-| [**research-analysis**](workflows/research-analysis/) | 9-step research paper analysis: process → contradictions → citations → gaps → methodology → synthesize → assumptions → knowledge map → so what | 9 | — | 10 |
+| [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase development: `/ankach:analyze` → `/ankach:deploy` | 9 | 5 | 11 |
+| [**research-analysis**](workflows/research-analysis/) | 9-step paper analysis: `/ankach:process` → `/ankach:so-what` | 9 | — | 10 |
 
 > [!NOTE]
 > Adding a new workflow = adding a new folder to `workflows/`. Each workflow is independent and has its own README with full documentation.

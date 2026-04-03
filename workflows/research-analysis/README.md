@@ -4,18 +4,18 @@
 
 ```mermaid
 graph LR
-    A["/process"] --> B["/contradictions"] --> C["/citations"] --> D["/gaps"]
-    D --> E["/methodology"] --> F["/synthesize"] --> G["/assumptions"] --> H["/knowledge-map"] --> I["/so-what"]
+    A["/ankach:process"] --> B["/ankach:contradictions"] --> C["/ankach:citations"] --> D["/ankach:gaps"]
+    D --> E["/ankach:methodology"] --> F["/ankach:synthesize"] --> G["/ankach:assumptions"] --> H["/ankach:knowledge-map"] --> I["/ankach:so-what"]
 ```
 
 ## Usage
 
 ```
 # Run the full workflow:
-/research-analysis
+/ankach:research-analysis
 
 # Or run individual steps:
-/process
+/ankach:process
 ```
 
 ## The 9-Step Pipeline
@@ -39,15 +39,15 @@ graph TD
 
 | # | Step | Skill | Command | Output |
 |---|------|-------|---------|--------|
-| 1 | Processing Protocol | [SKILL.md](skills/processing-protocol/SKILL.md) | [/process](commands/process.md) | Paper table, clusters, contradictions |
-| 2 | Contradiction Finder | [SKILL.md](skills/contradiction-finder/SKILL.md) | [/contradictions](commands/contradictions.md) | 5-10 contradictions with root causes |
-| 3 | Citation Chain | [SKILL.md](skills/citation-chain/SKILL.md) | [/citations](commands/citations.md) | Evolution of 3 key concepts |
-| 4 | Gap Scanner | [SKILL.md](skills/gap-scanner/SKILL.md) | [/gaps](commands/gaps.md) | 5 research gaps with resolution paths |
-| 5 | Methodology Audit | [SKILL.md](skills/methodology-audit/SKILL.md) | [/methodology](commands/methodology.md) | Classification table, weakest methodology |
-| 6 | Master Synthesis | [SKILL.md](skills/master-synthesis/SKILL.md) | [/synthesize](commands/synthesize.md) | 400-word synthesis across all papers |
-| 7 | Assumption Killer | [SKILL.md](skills/assumption-killer/SKILL.md) | [/assumptions](commands/assumptions.md) | 5-8 unverified assumptions with risk levels |
-| 8 | Knowledge Map | [SKILL.md](skills/knowledge-map/SKILL.md) | [/knowledge-map](commands/knowledge-map.md) | Central claim, pillars, contested zones |
-| 9 | So What? Test | [SKILL.md](skills/so-what-test/SKILL.md) | [/so-what](commands/so-what.md) | 3-point summary for non-experts |
+| 1 | Processing Protocol | [SKILL.md](skills/processing-protocol/SKILL.md) | [/ankach:process](commands/ankach/process.md) | Paper table, clusters, contradictions |
+| 2 | Contradiction Finder | [SKILL.md](skills/contradiction-finder/SKILL.md) | [/ankach:contradictions](commands/ankach/contradictions.md) | 5-10 contradictions with root causes |
+| 3 | Citation Chain | [SKILL.md](skills/citation-chain/SKILL.md) | [/ankach:citations](commands/ankach/citations.md) | Evolution of 3 key concepts |
+| 4 | Gap Scanner | [SKILL.md](skills/gap-scanner/SKILL.md) | [/ankach:gaps](commands/ankach/gaps.md) | 5 research gaps with resolution paths |
+| 5 | Methodology Audit | [SKILL.md](skills/methodology-audit/SKILL.md) | [/ankach:methodology](commands/ankach/methodology.md) | Classification table, weakest methodology |
+| 6 | Master Synthesis | [SKILL.md](skills/master-synthesis/SKILL.md) | [/ankach:synthesize](commands/ankach/synthesize.md) | 400-word synthesis across all papers |
+| 7 | Assumption Killer | [SKILL.md](skills/assumption-killer/SKILL.md) | [/ankach:assumptions](commands/ankach/assumptions.md) | 5-8 unverified assumptions with risk levels |
+| 8 | Knowledge Map | [SKILL.md](skills/knowledge-map/SKILL.md) | [/ankach:knowledge-map](commands/ankach/knowledge-map.md) | Central claim, pillars, contested zones |
+| 9 | So What? Test | [SKILL.md](skills/so-what-test/SKILL.md) | [/ankach:so-what](commands/ankach/so-what.md) | 3-point summary for non-experts |
 
 ## Credits
 
