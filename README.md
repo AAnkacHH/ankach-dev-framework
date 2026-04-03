@@ -81,9 +81,28 @@ Each workflow is a **self-contained folder** with its own skills, commands, agen
 |----------|-------------|:------:|:------:|:--------:|
 | [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase development: `/ankach:analyze` → `/ankach:deploy` | 9 | 5 | 11 |
 | [**research-analysis**](workflows/research-analysis/) | 9-step paper analysis: `/ankach:process` → `/ankach:so-what` | 9 | — | 10 |
+| **client-discovery** | Analyze a client's business, model, competitors, and SEO before proposing a solution | — | — | — |
 
 > [!NOTE]
 > Adding a new workflow = adding a new folder to `workflows/`. Each workflow is independent and has its own README with full documentation.
+
+### Coming Soon
+
+<details>
+<summary><strong>client-discovery</strong> — understand the client before writing a single line of code</summary>
+
+When a client says "I need a website" or "I need a service" but doesn't explain **why** — this workflow fills in the gaps before you propose anything.
+
+**Planned phases:**
+- **Company Profile** — what the company does, what it sells, who its customers are
+- **Business Model Analysis** — how the company makes money, value proposition, revenue streams
+- **Market & Competitor Analysis** — who the competitors are, what they do better/worse, market positioning
+- **SEO & Online Presence Audit** — current search visibility, keyword opportunities, content gaps
+- **Requirements Synthesis** — translate business understanding into a concrete technical proposal
+
+**Goal:** Never propose a generic "5-page website" again. Understand the business first, then recommend what they actually need.
+
+</details>
 
 ---
 
