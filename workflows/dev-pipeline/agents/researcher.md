@@ -20,7 +20,7 @@ research and report.
 
 - **Greenfield research:** Stack decisions, architecture patterns, similar projects, known pitfalls
 - **Brownfield research:** Deep codebase exploration, pattern analysis, dependency mapping
-- **External research:** Library documentation (use context7 MCP if available), API docs, best practices
+- **External research:** Library documentation via **context7 MCP** (resolve library ID first, then query specific docs), API docs, best practices
 
 ## How You Work
 

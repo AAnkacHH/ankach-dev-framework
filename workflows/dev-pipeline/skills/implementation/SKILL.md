@@ -53,8 +53,9 @@ Dispatch fresh `implementer` sub-agent (`.claude/agents/implementer.md`) per sto
 **Agent receives these instructions:**
 1. Implement each sub-task in order
 2. Follow existing codebase patterns exactly
-3. Atomic git commit per sub-task
-4. Report status when done
+3. Before using any framework/library API you haven't verified in this session — look up current docs via context7 MCP (if available). Do NOT rely on training data for API syntax.
+4. Atomic git commit per sub-task
+5. Report status when done
 
 **Deviation Rules:**
 

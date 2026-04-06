@@ -82,6 +82,7 @@ All commands use the `ankach:` namespace prefix to avoid conflicts.
 | Workflow | Description | Skills | Agents | Commands |
 |----------|-------------|:------:|:------:|:--------:|
 | [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase software development lifecycle | 9 | 5 | 11 |
+| [**feature-docs**](workflows/feature-docs/) | Parallel documentation pipeline (requirements + use cases + diagrams) | 1 | 3 | 1 |
 | [**research-analysis**](workflows/research-analysis/) | 9-step scientific paper analysis protocol | 9 | — | 10 |
 | **client-discovery** | Client business analysis before proposing a solution | — | — | — |
 
