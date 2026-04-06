@@ -27,10 +27,11 @@ Before any interaction with the user, read and internalize these files:
 
 1. `CLAUDE.md` — project rules, stack, conventions
 2. `AGENTS.md` — architecture rules, forbidden patterns
-3. `.context/project-structure.md` — directory layout, file naming
-4. `.context/coding-conventions.md` — patterns, code style
-5. `.context/security-rules.md` — security constraints
-6. `.planning/STATE.md` — if exists, check for active feature
+3. `.context/tech-stack.md` — language, frameworks, DB engine, ORM, test runner
+4. `.context/project-structure.md` — directory layout, file naming
+5. `.context/coding-conventions.md` — patterns, code style
+6. `.context/security-rules.md` — security constraints
+7. `.planning/STATE.md` — if exists, check for active feature
 
 **Detect project type:**
 
@@ -48,7 +49,86 @@ Wait for confirmation before proceeding.
 
 ---
 
-## Step 2: Research
+## Step 2: Stack Confirmation
+
+<HARD-GATE>
+Do NOT proceed to research or implementation until the user confirms the tech stack.
+Wrong stack assumptions are the #1 cause of wasted work — wrong SQL dialect, wrong mapper patterns,
+wrong framework APIs. This step makes assumptions visible and catches them early.
+</HARD-GATE>
+
+### Brownfield (existing project)
+
+If `.context/tech-stack.md` exists — read it and present the detected stack.
+If `.context/tech-stack.md` does NOT exist — scan the project yourself:
+- Read dependency/project files (package manifests, lock files, project configs)
+- Check database configuration files and connection strings
+- Scan source directories for framework-specific patterns
+- Check for frontend assets, templates, or SPA framework files
+
+Present to the user:
+
+```
+## Detected Tech Stack
+
+| Layer       | Technology               |
+|-------------|--------------------------|
+| Language    | {language + version}     |
+| Backend     | {framework + version}    |
+| Database    | {engine + version}       |
+| ORM / Data  | {ORM or data layer}     |
+| Frontend    | {framework or template engine} |
+| Test runner | {test framework}         |
+| Build/Dev   | {key commands}           |
+
+> Is this correct? Confirm or correct before I continue.
+```
+
+**Rules:**
+- Only include layers that apply to this project — skip rows that don't exist (e.g. no frontend row for a pure API)
+- If a layer is ambiguous (e.g. project has both server-rendered templates AND JS framework files) — ask, do not assume
+- If you cannot confidently determine a layer — ask directly, do not guess:
+  > I couldn't determine your frontend framework from the project files. What is it?
+
+**On confirmation:** proceed to Step 3.
+**On correction:** update your understanding, re-present the table, re-confirm.
+
+### Greenfield (new project)
+
+If `.context/PROJECT.md` or `.context/tech-stack.md` exists — read and present the planned stack.
+If no context files exist — ask the user:
+
+```
+## Tech Stack (Not Yet Defined)
+
+No existing project detected. I need your stack preferences before proceeding:
+
+1. **Language:** preference or leave to my recommendation?
+2. **Backend framework:** preference or leave to my recommendation?
+3. **Database:** preference or no database needed?
+4. **Frontend:** preference, server-rendered, SPA, or none?
+5. **Auth:** needed? If so, any preference?
+
+Or describe what you're building and I'll recommend a stack.
+```
+
+**On response:** present a summary table (same format as brownfield) and confirm.
+
+### Anti-Rationalization
+
+| Excuse | Reality |
+|--------|---------|
+| "The stack is obvious from the files" | Agents routinely misidentify frameworks when a project mixes technologies. Show and confirm. |
+| "I already read CLAUDE.md, I know the stack" | CLAUDE.md may be incomplete or outdated. Confirm explicitly. |
+| "This wastes time on a simple task" | Wrong assumptions on a 'simple' task cause multi-round fix cycles. 10 seconds of confirmation prevents this. |
+| "The user will be annoyed by this question" | The user is MORE annoyed by generated code targeting the wrong database engine or framework. |
+
+---
+
+## Step 3: Research
+
+> **Important:** All code, SQL, and framework references generated from this point forward
+> MUST match the confirmed stack from Step 2. If in doubt — re-check the confirmed table.
 
 Automatically adapt to project type.
 
@@ -117,7 +197,7 @@ Write findings to `.planning/active/01-analysis/external-research.md` using this
 
 ---
 
-## Step 3: Questions
+## Step 4: Questions
 
 Ask clarifying questions to eliminate ambiguity.
 
@@ -126,7 +206,7 @@ Ask clarifying questions to eliminate ambiguity.
 - Prefer MULTIPLE CHOICE (2-4 options with trade-offs) when possible.
 - Show your assumption: "I'm assuming X. Correct, or would you prefer Y?"
 - Max 7 questions. After 7, document remaining unknowns as assumptions.
-- Skip questions answerable from codebase research (Step 2).
+- Skip questions answerable from codebase research (Step 3).
 - Follow energy — if user emphasizes something, dig deeper there.
 </RULES>
 
@@ -149,7 +229,7 @@ Ask clarifying questions to eliminate ambiguity.
 
 ---
 
-## Step 4: Understanding Lock
+## Step 5: Understanding Lock
 
 <HARD-GATE>
 Before proposing ANY approach, present this summary and get explicit confirmation.
@@ -182,7 +262,7 @@ Present the following to the user:
 
 ---
 
-## Step 5: Approaches
+## Step 6: Approaches
 
 Present **2-3 concrete approaches** to the user.
 
@@ -217,7 +297,7 @@ For each approach:
 
 ---
 
-## Step 6: Approval + Document
+## Step 7: Approval + Document
 
 User picks approach. Write all artifacts and get final approval.
 
@@ -344,11 +424,12 @@ On approval, create or update `.planning/STATE.md`:
 ## Exit Criteria (ALL must be true)
 
 - [ ] Project context read and understood (Step 1)
-- [ ] Research done — codebase and/or external (Step 2)
-- [ ] Critical questions answered or documented as assumptions (Step 3)
-- [ ] Understanding Lock confirmed by user (Step 4)
-- [ ] 2-3 approaches proposed with trade-offs (Step 5)
-- [ ] User approved approach + final document (Step 6)
+- [ ] Tech stack confirmed by user (Step 2)
+- [ ] Research done — codebase and/or external (Step 3)
+- [ ] Critical questions answered or documented as assumptions (Step 4)
+- [ ] Understanding Lock confirmed by user (Step 5)
+- [ ] 2-3 approaches proposed with trade-offs (Step 6)
+- [ ] User approved approach + final document (Step 7)
 - [ ] All artifacts written to `.planning/active/01-analysis/`
 - [ ] STATE.md created/updated
 
@@ -368,3 +449,4 @@ On approval, create or update `.planning/STATE.md`:
 | "User wants it done fast" | 10 minutes of analysis saves 2 hours of wrong implementation. |
 | "I can skip the codebase search" | Existing patterns dictate how new code must be written. Always check. |
 | "Questions will annoy the user" | Wrong implementation annoys more than questions. Ask. |
+| "I know the stack from CLAUDE.md" | CLAUDE.md may be incomplete. Confirm the stack table with the user (Step 2). |
