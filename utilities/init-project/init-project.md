@@ -194,11 +194,25 @@ Phase 1 — Foundation (see `.context/STATE.md` for progress)
 
 See @AGENTS.md for project rules and context.
 
+## Stack Guards
+- Database is [DB engine]. NEVER generate [other DB engine] syntax.
+- Frontend is [actual frontend]. Do NOT assume [commonly confused alternative].
+- [Add other guards once stack is finalized — update after /ankach:map-codebase]
+
+## Workflow Rules
+- Before implementing, present a plan and wait for approval.
+- When fixing bugs, trace the actual code path first — read all involved files before proposing a fix.
+- When creating diagrams, embed them inline in the document. Use Mermaid syntax only.
+- NEVER run destructive commands (prune, rm -rf, force push) without explicit user confirmation.
+
 ## Claude-Specific
 - Sub-agents: `.claude/agents/`
 - Commands: `.claude/commands/`
 - Planning: `.planning/`
+- Detailed context: `.context/`
 ```
+
+**Note:** If the tech stack is not yet finalized (user said "agent's choice"), write `[TBD — update after stack is chosen]` in the Stack Guards section instead of guessing.
 
 ### `GEMINI.md`
 ```markdown

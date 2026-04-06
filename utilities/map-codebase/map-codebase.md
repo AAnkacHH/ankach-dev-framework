@@ -78,7 +78,24 @@ Build an internal "stack map":
 # Frontend
 [commands]
 ```
+
+## Misidentification Risks
+Things an AI agent is likely to get wrong about this project:
+- [e.g. "JS files in resources/ are utility scripts, NOT a SPA framework — frontend is server-rendered templates"]
+- [e.g. "Database is X — do NOT use Y-specific syntax (specific difference examples)"]
+- [e.g. "This project uses framework A v2, NOT v1 — API differences: ..."]
 ```
+
+**How to populate "Misidentification Risks":**
+
+Look for signals that commonly confuse agents:
+- Project has files from multiple ecosystems (e.g. JS files in a server-rendered project → agent may assume SPA)
+- Database engine has a close cousin with different SQL syntax (e.g. two databases that share syntax but differ on specific functions)
+- Project uses an older or newer major version of a framework with breaking API changes
+- Project has a monorepo structure where backend and frontend coexist — clarify which is which
+- Project uses a less common pattern for its stack (e.g. manual mappers instead of auto-generated, custom DI instead of framework default)
+
+If you find any of these signals, add a specific line to the Misidentification Risks section explaining what the project IS and what it is NOT. If no risks are found, write: "No significant misidentification risks detected."
 
 ### `.context/project-structure.md`
 
@@ -253,11 +270,31 @@ For detailed rules see `.context/` directory:
 
 See @AGENTS.md for all project rules and architecture.
 
+## Stack Guards
+- Database is [DB engine]. NEVER generate [other DB engine] syntax.
+- Frontend is [actual frontend]. Do NOT assume [commonly confused alternative].
+- [Add any other misidentification risks from .context/tech-stack.md]
+
+## Workflow Rules
+- Before implementing, present a plan and wait for approval.
+- When fixing bugs, trace the actual code path first — read all involved files before proposing a fix.
+- When creating diagrams, embed them inline in the document. Use Mermaid syntax only.
+- NEVER run destructive commands (prune, rm -rf, force push) without explicit user confirmation.
+
 ## Claude-Specific
-- Sub-agents: `.claude/agents/` (planner, executor, code-reviewer, implementation-verifier)
+- Sub-agents: `.claude/agents/`
 - Custom commands: `.claude/commands/`
 - Planning artifacts: `.planning/`
+- Detailed context: `.context/`
 ```
+
+**How to populate "Stack Guards":**
+
+Pull the concrete risks from the "Misidentification Risks" section of `.context/tech-stack.md` and turn them into direct prohibitions. CLAUDE.md is read at the start of every conversation — these guards prevent wrong assumptions before any analysis begins.
+
+- Include only guards relevant to this specific project — do not add generic advice
+- Each guard must name what TO use and what NOT to use
+- If `.context/tech-stack.md` has no misidentification risks, include only the database line (most common source of errors)
 
 ### `GEMINI.md`
 ```markdown
