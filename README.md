@@ -90,6 +90,30 @@ All commands use the `ankach:` namespace prefix to avoid conflicts.
 > [!NOTE]
 > Adding a new workflow = adding a new folder to `workflows/`. Each workflow is independent and has its own README with full documentation.
 
+### Featured
+
+<details>
+<summary><strong>git-manager</strong> — daily git workflow with a safety-hardened permission model</summary>
+
+A Sonnet-model orchestrator agent routes eight dedicated skills that cover the full daily git loop — so Opus stays on the task, and every git detail (bash output, AskUserQuestion prompts, conflict recovery) is absorbed by the sub-agent. Typical token savings: 80–95% per call vs. running the skill directly from the main window.
+
+**Skills (invoke via agent or `/ankach:<name>`):**
+
+| Skill | Purpose |
+|---|---|
+| `commit` | Conventional-commit format; secret-file preflight with `.gitignore` backfill; hard-denies `git add <secret>` variants. |
+| `create-branch` | `feature`/`bugfix`/`hotfix` naming; optional ticket ID (Jira/Linear/GitHub/bare numeric); base-branch autodetect. |
+| `sync-branch` | Rebase vs merge always asked; `hotfix` → main; others → dev/stage or main. Blocks `git rebase * --exec`. |
+| `create-pr` | `gh` CLI with Summary + Test plan; remote-ahead detection; mandatory quoted heredoc; blocks `--body-file` injection. |
+| `cleanup-branches` | Dry-run → confirm → `-d` only; default-branch hard-blocks; `grep -vxF` for regex-safe filtering. |
+| `search-commits` | Read-only toolbox (pickaxe, grep, blame, `log -L`, `gh search`); narrow allowlist blocks content-leak forms. |
+| `stash-manager` | save/list/show/pop/apply/drop/clear; `drop` requires explicit `stash@{N}`. |
+| `revert` | Additive revert with SHA validation; refuses on long-lived branches; merge-commit `-m N` confirmed with user. |
+
+**Permission philosophy:** narrow allowlist is the primary defense — anything outside (e.g. `python -c`, `curl`, `git show <sha>:<path>`) falls through to a user prompt. `disallowed-tools` is lean, holding only hard-denies where the allowlist is broader than safe (force-push variants, `git add <secret>`, default-branch deletion, `--body-file` PR body, `git rebase --exec`) plus a universal dangerous-ops block (`filter-branch`, `filter-repo`, `replace`, `update-ref`, `fsck`, `gc`, `config`, `remote set-url`). The agent itself carries the full catchall block (shell escapes, secret reads, content-leak git) because it has blanket `Bash` allow.
+
+</details>
+
 ### Coming Soon
 
 <details>
