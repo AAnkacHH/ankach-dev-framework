@@ -83,6 +83,7 @@ All commands use the `ankach:` namespace prefix to avoid conflicts.
 |----------|-------------|:------:|:------:|:--------:|
 | [**dev-pipeline**](workflows/dev-pipeline/) | 9-phase software development lifecycle | 9 | 5 | 11 |
 | [**feature-docs**](workflows/feature-docs/) | Parallel documentation pipeline (requirements + use cases + diagrams) | 1 | 3 | 1 |
+| [**git-manager**](workflows/git-manager/) | Safety-hardened git workflow: branch, commit, sync, PR, cleanup, search, stash, revert | 8 | 1 | 8 |
 | [**research-analysis**](workflows/research-analysis/) | 9-step scientific paper analysis protocol | 9 | — | 10 |
 | **client-discovery** | Client business analysis before proposing a solution | — | — | — |
 
@@ -131,6 +132,18 @@ workflows/
 │   ├── skills/                    # 9 phase skills (SKILL.md each)
 │   ├── commands/ankach/           # 11 namespaced slash commands
 │   └── agents/                    # 5 sub-agents
+│
+├── feature-docs/                  # Parallel 3-step documentation pipeline
+│   ├── README.md
+│   ├── skills/                    # 1 analysis skill
+│   ├── commands/ankach/           # 1 orchestrator command
+│   └── agents/                    # 3 parallel writers
+│
+├── git-manager/                   # Safety-hardened git workflow
+│   ├── README.md
+│   ├── agents/                    # 1 orchestrator (sonnet)
+│   ├── commands/ankach/           # 8 namespaced slash commands
+│   └── skills/                    # 8 skills + _shared/secret-patterns.md
 │
 ├── research-analysis/             # 9-step paper analysis protocol
 │   ├── README.md
