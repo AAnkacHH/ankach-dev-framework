@@ -175,13 +175,19 @@ The full rule lives in the relevant skill. Orientation:
 
 ## Safety
 
-All skills use strict `allowed-tools` / `disallowed-tools` blocks:
+Safety is layered; each layer catches a different class of risk.
 
-1. **Narrow allowlist** — instead of `Bash(git *)` each skill lists the specific git subcommands it needs. `git show`, `git cat-file`, `git archive`, `git grep`, `git fsck` are blocked across the board so the history cannot be used to leak a sensitive file's content.
-2. **Sensitive-file list** lives in `skills/_shared/secret-patterns.md` — the single source of truth. If you add a new pattern, update that file and mirror `disallowed-tools` in every skill that touches the filesystem or history.
-3. **Destructive operations** (force-push, `reset --hard`, `clean`, `branch -D`, deleting remote branches, `filter-branch`, `gc --prune`) are blocked everywhere. The agent mirrors these blocks at its own level.
-4. **Shell escapes** (`bash`, `sh`, `eval`, `source`, `cat`, `less`, `xxd`, `base64`, `curl`, `wget`) are blocked so sensitive files can't be read via a workaround.
-5. **Prompt injection** — branch names, commit messages and PR bodies are treated as untrusted input; skills never splice them into a shell command without validation.
+1. **Narrow allowlist is the primary defense.** Each skill lists only the specific `Bash(git ...)` / `Bash(gh ...)` patterns it actually uses. Anything outside that list — `python -c`, `curl ...`, `cat ...`, `git show <sha>`, `git blame <file>`, `git log -p` — falls through to a user prompt rather than running automatically. No approval → no execution.
+2. **Hard-deny reserved for allow-adjacent risks.** `disallowed-tools` only blocks commands that the allowlist would otherwise let through. Examples:
+   - `commit` allows `Bash(git add *)` → hard-denies `Bash(git add *<secret>*)` for every pattern in `_shared/secret-patterns.md`.
+   - `cleanup-branches` allows `Bash(git branch -d *)` → hard-denies `git branch -d main/master/dev/stage/release/*/hotfix/*`.
+   - `create-pr` allows `Bash(git push origin *)` → hard-denies every `--force` variant and `gh pr create --body-file` (content-leak via PR body).
+   - `sync-branch` allows `Bash(git rebase origin/*)` → hard-denies `git rebase * --exec*`.
+   - `search-commits` has a narrow allowlist for `git log`/`show`/`blame` (e.g. `--stat`, `--name-only`, `--oneline`, `-L`) — bare `git show <sha>:<path>`, `git blame <file>`, `git log -p` are not in the list → prompts.
+3. **Defense-in-depth on dangerous ops.** Commands that should never run regardless of user approval are hard-denied in every skill: `git filter-branch`, `git filter-repo`, `git replace`, `git update-ref`, `git fsck`, `git gc`, `git config --global/--system`, `git remote set-url`.
+4. **Agent-level catchall.** `git-agent` uses blanket `Bash` (to orchestrate any skill), so its `disallowed-tools` is the full defensive block: shell escapes (`bash`, `python`, `curl`, `cat`, …), all `Read(**/<secret>)` patterns, content-leaking git forms. The agent is the only file where the full block lives.
+5. **Sensitive-file list** in `skills/_shared/secret-patterns.md` is the single source of truth for what counts as a secret. The `commit` skill and the agent replicate relevant entries into their `disallowed-tools`; other skills rely on the prompt-fallback since they don't list `Read` or `Grep` in allow.
+6. **Prompt injection** — branch names, commit messages, PR bodies, SHA arguments, and stash messages are treated as untrusted input. `revert` has explicit SHA validation prose; `stash-manager` warns about message quoting; `create-pr` mandates a quoted heredoc for PR body.
 
 ## Output format
 
@@ -197,29 +203,29 @@ That way the main (Opus) context doesn't pick up thousands of tokens per git cal
 ### Add a new sensitive-file pattern
 
 1. Add one line to `skills/_shared/secret-patterns.md` with a reason.
-2. In every skill that touches the filesystem or history, add:
+2. Add the pattern to `agents/git-agent.md` `disallowed-tools`:
 
    ```yaml
-   disallowed-tools:
      - Read(**/<pattern>)
-     - Grep(path=**/<pattern>)
-     - Bash(git show *:*<pattern>*)
-     - Bash(git blame *<pattern>*)
-     - Bash(git log -p -- *<pattern>*)
    ```
 
-3. For the `commit` skill additionally:
+3. Add the pattern to `commit` skill's `disallowed-tools` (both `git add` and `Read` — `commit` is the only skill with blanket `Read` allow):
 
    ```yaml
      - Bash(git add *<pattern>*)
+     - Read(**/<pattern>)
    ```
+
+4. Other skills **don't** need the entry — their allowlists don't include `Read`/`Grep`, so reads of the new pattern fall through to a user prompt.
 
 ### Add a new skill
 
-1. Create `skills/<skill-name>/SKILL.md` with frontmatter (`name`, `description`, `allowed-tools`, `disallowed-tools`).
-2. Keep the same report style: success = 1–3 lines, failure = full context.
-3. Mirror the same block structure (destructive / content-leaking / shell-escapes).
-4. Add a row to the skill table in `agents/git-agent.md`.
+1. Create `skills/<skill-name>/SKILL.md` with frontmatter: `name`, `description`, narrow `allowed-tools` (list only the specific `Bash(git <subcommand> ...)` patterns the skill needs — no blanket `Bash`), `disallowed-tools`.
+2. Keep `disallowed-tools` lean: list only hard-denies where the allowlist is broader than safe (e.g. if you allow `Bash(git push *)`, hard-deny force-push variants). Everything else falls through to prompt-on-use.
+3. Always hard-deny the dangerous-ops block: `git filter-branch`, `git filter-repo`, `git replace`, `git update-ref`, `git fsck`, `git gc`, `git config`, `git remote set-url`.
+4. Keep the same report style: success = 1–3 lines, failure = full context.
+5. Add a row to the skill table in `agents/git-agent.md` routing section.
+6. Add a thin pointer `commands/ankach/<skill-name>.md` so the skill is invocable via `/ankach:<skill-name>`.
 
 ### Update a convention (e.g. branch format)
 
