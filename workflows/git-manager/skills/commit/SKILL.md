@@ -41,31 +41,16 @@ disallowed-tools:
   - Bash(git add --all*)
   - Bash(git add .)
   - Bash(git add --no-pager*)
-  # never stage secrets
-  - Bash(git add *.env)
-  - Bash(git add *.env.*)
+  # never stage secrets (family globs collapse all .env/.envrc/.env.vault, all key files, all cloud-cred dirs)
   - Bash(git add *.env*)
   - Bash(git add **/.env*)
-  - Bash(git add .env)
-  - Bash(git add .env.*)
-  - Bash(git add .env*)
-  - Bash(git add *.envrc*)
-  - Bash(git add .envrc)
-  - Bash(git add *.env.vault*)
   - Bash(git add *auth.json*)
   - Bash(git add *credentials*)
-  - Bash(git add *credentials.json*)
   - Bash(git add *secrets.*)
-  - Bash(git add *secrets.yml*)
-  - Bash(git add *secrets.yaml*)
-  - Bash(git add *secrets.json*)
-  - Bash(git add *.token*)
   - Bash(git add *token*)
   - Bash(git add *.tfvars*)
   - Bash(git add *terraform.tfstate*)
   - Bash(git add *wp-config.php*)
-  - Bash(git add *config/master.key*)
-  - Bash(git add *config/credentials/*.key*)
   - Bash(git add *appsettings.*.json*)
   - Bash(git add *local.settings.json*)
   - Bash(git add *.pem*)
@@ -78,46 +63,32 @@ disallowed-tools:
   - Bash(git add *.keystore*)
   - Bash(git add *.asc*)
   - Bash(git add *.gpg*)
-  - Bash(git add *firebase-adminsdk*.json*)
-  - Bash(git add *service-account*.json*)
+  - Bash(git add *firebase-adminsdk*)
+  - Bash(git add *service-account*)
   - Bash(git add *id_rsa*)
   - Bash(git add *id_ed25519*)
   - Bash(git add *id_ecdsa*)
   - Bash(git add *id_dsa*)
-  - Bash(git add *.ssh/*)
   - Bash(git add **/.ssh/**)
   - Bash(git add *.netrc*)
   - Bash(git add *.git-credentials*)
   - Bash(git add *.npmrc*)
   - Bash(git add *.yarnrc*)
   - Bash(git add *.pypirc*)
-  - Bash(git add *.cargo/credentials*)
   - Bash(git add *.gradle/gradle.properties*)
-  - Bash(git add *.aws/*)
   - Bash(git add **/.aws/**)
-  - Bash(git add *.kube/*)
   - Bash(git add **/.kube/**)
   - Bash(git add *.docker/config.json*)
-  - Bash(git add *gcloud/*)
   - Bash(git add **/gcloud/**)
-  # never read secret files
-  - Read(**/.env)
-  - Read(**/.env.*)
-  - Read(**/*.env)
-  - Read(**/.envrc)
-  - Read(**/.env.vault)
+  # never read secret files (family globs — see ../_shared/secret-patterns.md for full coverage list)
+  - Read(**/*.env*)
   - Read(**/auth.json)
-  - Read(**/credentials.json)
-  - Read(**/credentials)
-  - Read(**/secrets.yml)
-  - Read(**/secrets.yaml)
-  - Read(**/secrets.json)
-  - Read(**/*.token)
+  - Read(**/*credentials*)
+  - Read(**/*secrets.*)
+  - Read(**/*token*)
   - Read(**/*.tfvars)
   - Read(**/terraform.tfstate*)
   - Read(**/wp-config.php)
-  - Read(**/config/master.key)
-  - Read(**/config/credentials/*.key)
   - Read(**/appsettings.*.json)
   - Read(**/local.settings.json)
   - Read(**/*.pem)
@@ -142,13 +113,9 @@ disallowed-tools:
   - Read(**/.npmrc)
   - Read(**/.yarnrc)
   - Read(**/.pypirc)
-  - Read(**/.cargo/credentials*)
   - Read(**/.gradle/gradle.properties)
-  - Read(**/.aws/credentials)
-  - Read(**/.aws/config)
   - Read(**/.aws/**)
   - Read(**/.docker/config.json)
-  - Read(**/.kube/config)
   - Read(**/.kube/**)
   - Read(**/gcloud/**)
 ---
@@ -161,15 +128,14 @@ Create one or more focused git commits following a conventional-commit layout.
 
 ### 1. Understand current changes
 
-Run these commands to understand the state:
-
 ```bash
-git status          # never use -uall flag
-git diff --stat     # overview of changed files
-git diff            # full diff of unstaged changes
-git diff --cached   # full diff of staged changes
-git log --oneline -5  # recent commits for style reference
+git status --short      # never use -uall flag
+git diff --stat HEAD    # one combined stat for staged + unstaged
 ```
+
+Read the **full diff only for files you need to reason about** (Read tool on specific paths, or `git diff -- <file>`). Do **not** dump `git diff` / `git diff --cached` wholesale — that floods the context for large changesets.
+
+If the repo's commit-message style is unclear, additionally run `git log --oneline -5` once for reference.
 
 ### 1b. Secret-file safety check
 
@@ -363,7 +329,7 @@ The outer heredoc delimiter must be quoted (`'MSG_END'`) so the shell does NOT e
 
 ### 7. Verify
 
-Run `git log --oneline -3` and `git status` after committing to confirm success.
+`git commit` already prints the resulting hash and summary — no extra `git log` needed. Run `git status --short` only if you suspect unstaged remnants (e.g. mixed-concern split).
 
 ## Rules
 

@@ -130,28 +130,9 @@ If the user picks a base that contradicts the type (e.g. `hotfix/*` off `dev`), 
 
 Collect three pieces: **type**, **ticket (optional)**, **description**. Extract from the user's message when possible; otherwise ask via `AskUserQuestion`.
 
-- **Type** — if missing, ask: `feature` / `bugfix` / `hotfix`.
+- **Type** — accepted prefixes: `feature/` (new functionality), `bugfix/` (non-urgent fix), `hotfix/` (urgent prod fix, branches from `main`/`master`). If missing, ask via `AskUserQuestion`.
 
-- **Ticket** — try matching the Jira/Linear pattern `[A-Z]+-\d+` in the user's message first. If found, use it. If not found, detect which convention the project uses by counting matches in existing branches:
-
-  ```bash
-  ticket_count=$(git branch -a \
-    | grep -cE '(feature|bugfix|hotfix)/[A-Z]+-[0-9]+(-|$)' || true)
-  numeric_count=$(git branch -a \
-    | grep -cE '(feature|bugfix|hotfix)/[0-9]{3,7}(-|$)' || true)
-  no_ticket_count=$(git branch -a \
-    | grep -cE '(feature|bugfix|hotfix)/[a-z]' || true)
-  ```
-
-  Note the `(-|$)` anchor on the first two — without it the regex would truncate at the first `-`, and a ticket ID like `PROJ-123` would be mistaken for only `PROJ`.
-
-  Decide:
-
-  - Majority have ticket IDs → ask the user for one.
-  - Majority have no ticket ID → skip; use description only.
-  - Mixed or empty repo → ask the user whether this project uses ticket IDs.
-
-  **Never invent a ticket ID.** If the user doesn't supply one, omit it.
+- **Ticket** — accepted formats: Jira/Linear `[A-Z]+-\d+` (e.g. `PROJ-123`), bare numeric `\d{3,7}` (legacy), or none. Try matching in the user's message first; if not found, ask via `AskUserQuestion` which convention this project uses (or skip). **Never invent a ticket ID.**
 
 - **Description** — if missing, ask for a 2-5 word short description.
 
